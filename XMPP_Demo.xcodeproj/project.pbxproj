@@ -16,6 +16,12 @@
 		4884881E1C7EC3F20084E382 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4884881C1C7EC3F20084E382 /* Main.storyboard */; };
 		488488201C7EC3F20084E382 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4884881F1C7EC3F20084E382 /* Assets.xcassets */; };
 		488488231C7EC3F20084E382 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 488488211C7EC3F20084E382 /* LaunchScreen.storyboard */; };
+		48BF9CE71C7FEBC400C219DE /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BF9CE61C7FEBC400C219DE /* BaseViewController.m */; };
+		48BF9CEA1C7FEBE400C219DE /* FriendListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BF9CE91C7FEBE400C219DE /* FriendListController.m */; };
+		48BF9CEE1C7FEC7500C219DE /* BaseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BF9CED1C7FEC7500C219DE /* BaseViewModel.m */; };
+		48BF9CF11C7FECA600C219DE /* FriendListViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BF9CF01C7FECA600C219DE /* FriendListViewModel.m */; };
+		48BF9CF41C7FF48E00C219DE /* AddFriendController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BF9CF31C7FF48E00C219DE /* AddFriendController.m */; };
+		48BF9CF71C7FF9F300C219DE /* AddFriendViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BF9CF61C7FF9F300C219DE /* AddFriendViewModel.m */; };
 		934DDEFEA7E84EB61CC6BD42 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36F51D957D6B099BCF5DE523 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +43,18 @@
 		4884881F1C7EC3F20084E382 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		488488221C7EC3F20084E382 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		488488241C7EC3F20084E382 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		48BF9CE51C7FEBC400C219DE /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		48BF9CE61C7FEBC400C219DE /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		48BF9CE81C7FEBE400C219DE /* FriendListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListController.h; sourceTree = "<group>"; };
+		48BF9CE91C7FEBE400C219DE /* FriendListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListController.m; sourceTree = "<group>"; };
+		48BF9CEC1C7FEC7500C219DE /* BaseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewModel.h; sourceTree = "<group>"; };
+		48BF9CED1C7FEC7500C219DE /* BaseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewModel.m; sourceTree = "<group>"; };
+		48BF9CEF1C7FECA600C219DE /* FriendListViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListViewModel.h; sourceTree = "<group>"; };
+		48BF9CF01C7FECA600C219DE /* FriendListViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListViewModel.m; sourceTree = "<group>"; };
+		48BF9CF21C7FF48E00C219DE /* AddFriendController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFriendController.h; sourceTree = "<group>"; };
+		48BF9CF31C7FF48E00C219DE /* AddFriendController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFriendController.m; sourceTree = "<group>"; };
+		48BF9CF51C7FF9F300C219DE /* AddFriendViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFriendViewModel.h; sourceTree = "<group>"; };
+		48BF9CF61C7FF9F300C219DE /* AddFriendViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFriendViewModel.m; sourceTree = "<group>"; };
 		B20B33E19CEB155648D030BB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		B7FA450E6007A10596B56A9E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -65,6 +83,9 @@
 		486F08A11C7EE3DE0054F0F4 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				48BF9CEB1C7FEC5400C219DE /* BaseVM */,
+				48BF9CE21C7FEAE700C219DE /* Mine */,
+				48BF9CE31C7FEAE700C219DE /* FriendList */,
 				486F08AF1C7EE41B0054F0F4 /* Login */,
 			);
 			path = ViewModel;
@@ -73,6 +94,9 @@
 		486F08A41C7EE3DE0054F0F4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				48BF9CE41C7FEBB700C219DE /* BaseVC */,
+				48BF9CE01C7FEADE00C219DE /* Mine */,
+				48BF9CE11C7FEADE00C219DE /* FriendList */,
 				486F08AA1C7EE4120054F0F4 /* TabBar */,
 				486F08AB1C7EE4120054F0F4 /* Login */,
 			);
@@ -147,6 +171,60 @@
 				488488141C7EC3F20084E382 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		48BF9CE01C7FEADE00C219DE /* Mine */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Mine;
+			sourceTree = "<group>";
+		};
+		48BF9CE11C7FEADE00C219DE /* FriendList */ = {
+			isa = PBXGroup;
+			children = (
+				48BF9CE81C7FEBE400C219DE /* FriendListController.h */,
+				48BF9CE91C7FEBE400C219DE /* FriendListController.m */,
+				48BF9CF21C7FF48E00C219DE /* AddFriendController.h */,
+				48BF9CF31C7FF48E00C219DE /* AddFriendController.m */,
+			);
+			path = FriendList;
+			sourceTree = "<group>";
+		};
+		48BF9CE21C7FEAE700C219DE /* Mine */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Mine;
+			sourceTree = "<group>";
+		};
+		48BF9CE31C7FEAE700C219DE /* FriendList */ = {
+			isa = PBXGroup;
+			children = (
+				48BF9CEF1C7FECA600C219DE /* FriendListViewModel.h */,
+				48BF9CF01C7FECA600C219DE /* FriendListViewModel.m */,
+				48BF9CF51C7FF9F300C219DE /* AddFriendViewModel.h */,
+				48BF9CF61C7FF9F300C219DE /* AddFriendViewModel.m */,
+			);
+			path = FriendList;
+			sourceTree = "<group>";
+		};
+		48BF9CE41C7FEBB700C219DE /* BaseVC */ = {
+			isa = PBXGroup;
+			children = (
+				48BF9CE51C7FEBC400C219DE /* BaseViewController.h */,
+				48BF9CE61C7FEBC400C219DE /* BaseViewController.m */,
+			);
+			path = BaseVC;
+			sourceTree = "<group>";
+		};
+		48BF9CEB1C7FEC5400C219DE /* BaseVM */ = {
+			isa = PBXGroup;
+			children = (
+				48BF9CEC1C7FEC7500C219DE /* BaseViewModel.h */,
+				48BF9CED1C7FEC7500C219DE /* BaseViewModel.m */,
+			);
+			path = BaseVM;
 			sourceTree = "<group>";
 		};
 		75A921F001BBB34063E97306 /* Frameworks */ = {
@@ -287,11 +365,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48BF9CF71C7FF9F300C219DE /* AddFriendViewModel.m in Sources */,
+				48BF9CF11C7FECA600C219DE /* FriendListViewModel.m in Sources */,
+				48BF9CF41C7FF48E00C219DE /* AddFriendController.m in Sources */,
 				488488181C7EC3F20084E382 /* AppDelegate.m in Sources */,
+				48BF9CEA1C7FEBE400C219DE /* FriendListController.m in Sources */,
 				488488151C7EC3F20084E382 /* main.m in Sources */,
 				486F08A71C7EE3DE0054F0F4 /* XMPPManager.m in Sources */,
+				48BF9CEE1C7FEC7500C219DE /* BaseViewModel.m in Sources */,
 				486F08B21C7EE41B0054F0F4 /* LoginViewModel.m in Sources */,
 				486F08B51C7EE4320054F0F4 /* BaseTabBarController.m in Sources */,
+				48BF9CE71C7FEBC400C219DE /* BaseViewController.m in Sources */,
 				486F08AE1C7EE4120054F0F4 /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

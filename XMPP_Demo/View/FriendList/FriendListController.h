@@ -1,15 +1,13 @@
 //
-//  LoginViewController.h
+//  FriendListController.h
 //  XMPP_Demo
 //
-//  Created by 石茗伟 on 16/2/25.
+//  Created by 石茗伟 on 16/2/26.
 //  Copyright © 2016年 mingway. All rights reserved.
 //
 
 #import "BaseViewController.h"
 
-@interface LoginViewController : BaseViewController
-
+@interface FriendListController : BaseViewController
 
 @end
-

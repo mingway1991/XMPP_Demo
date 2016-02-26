@@ -10,8 +10,15 @@
 
 @interface XMPPManager : NSObject
 
+@property (nonatomic, assign) BOOL isOnline;
+@property (nonatomic, strong) NSArray *friendList;
+
 + (instancetype)shared;
 - (BOOL)connectWithUserName:(NSString *)username
                    password:(NSString *)password;
+- (void)disconnect;
+- (void)getFriendList;
+- (void)sendFriendRequestWithUsername:(NSString *)username;
+- (void)removeFriendWithUsername:(NSString *)username;
 
 @end

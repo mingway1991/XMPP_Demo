@@ -24,6 +24,15 @@
 
 #pragma mark -
 #pragma mark life cycle
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self viewModel];
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -74,7 +83,12 @@
 - (LoginViewModel *)viewModel
 {
     if (_viewModel == nil) {
+        @weakify(self);
         _viewModel = [[LoginViewModel alloc] init];
+        [_viewModel setLoginSuccess:^{
+            @strongify(self);
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        }];
     }
     return _viewModel;
 }

@@ -92,7 +92,7 @@
         <!--Item-->
         <scene sceneID="wdO-Fd-7Fd">
             <objects>
-                <navigationController hidesBottomBarWhenPushed="YES" id="MdY-6L-wJo" sceneMemberID="viewController">
+                <navigationController id="MdY-6L-wJo" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Item" id="XyM-EI-hu4"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
@@ -106,12 +106,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sNr-jw-DJR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1066" y="836"/>
+            <point key="canvasLocation" x="770" y="852"/>
         </scene>
-        <!--View Controller-->
+        <!--Friend List Controller-->
         <scene sceneID="NIi-en-Aw6">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="pf7-Xz-ccJ" sceneMemberID="viewController">
+                <viewController id="pf7-Xz-ccJ" customClass="FriendListController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="IlH-Ek-sVs"/>
                         <viewControllerLayoutGuide type="bottom" id="QjN-7E-vXh"/>
@@ -124,15 +124,70 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="YLV-5r-4za"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <segue destination="5rP-Jt-uAz" kind="show" identifier="toAddFriendSegue" id="FPU-Z0-ZoN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bU3-z5-LOb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1650" y="828"/>
+            <point key="canvasLocation" x="1354" y="844"/>
+        </scene>
+        <!--Add Friend Controller-->
+        <scene sceneID="Il3-ee-LQB">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="5rP-Jt-uAz" customClass="AddFriendController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3vB-K3-ntZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="aqw-WE-gfX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wv2-g7-cTQ">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Z4-uy-hWO">
+                                <rect key="frame" x="20" y="81" width="280" height="44"/>
+                                <color key="backgroundColor" red="0.6588235294" green="0.78039215689999997" blue="0.87843137250000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="UxT-FL-R5A"/>
+                                </constraints>
+                                <state key="normal" title="添加"/>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HZf-U9-fS7">
+                                <rect key="frame" x="20" y="20" width="280" height="44"/>
+                                <color key="backgroundColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="w5D-gu-q9L"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="HZf-U9-fS7" firstAttribute="leading" secondItem="wv2-g7-cTQ" secondAttribute="leading" constant="20" id="2wf-he-4uW"/>
+                            <constraint firstAttribute="trailing" secondItem="HZf-U9-fS7" secondAttribute="trailing" constant="20" id="5x0-mM-dKC"/>
+                            <constraint firstItem="HZf-U9-fS7" firstAttribute="top" secondItem="3vB-K3-ntZ" secondAttribute="bottom" constant="20" id="7IQ-Zt-e8B"/>
+                            <constraint firstItem="7Z4-uy-hWO" firstAttribute="leading" secondItem="wv2-g7-cTQ" secondAttribute="leading" constant="20" id="HIi-fi-v90"/>
+                            <constraint firstItem="7Z4-uy-hWO" firstAttribute="top" secondItem="HZf-U9-fS7" secondAttribute="bottom" constant="17" id="NJC-MJ-5GB"/>
+                            <constraint firstAttribute="trailing" secondItem="7Z4-uy-hWO" secondAttribute="trailing" constant="20" id="vd6-vu-KYx"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="addFriendButton" destination="7Z4-uy-hWO" id="XV7-wh-A8Y"/>
+                        <outlet property="inputTextField" destination="HZf-U9-fS7" id="2RP-RP-qax"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ioT-eF-7bw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1946" y="844"/>
         </scene>
         <!--Base Tab Bar Controller-->
         <scene sceneID="CDu-Bi-jMw">
             <objects>
-                <tabBarController hidesBottomBarWhenPushed="YES" id="vM8-pW-lgF" customClass="BaseTabBarController" sceneMemberID="viewController">
+                <tabBarController id="vM8-pW-lgF" customClass="BaseTabBarController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="JKg-rV-c44">
@@ -147,12 +202,12 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xqs-oH-OBv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="432" y="1115"/>
+            <point key="canvasLocation" x="136" y="1131"/>
         </scene>
         <!--Item-->
         <scene sceneID="IJD-BR-i6V">
             <objects>
-                <navigationController hidesBottomBarWhenPushed="YES" id="s6C-JX-X0S" sceneMemberID="viewController">
+                <navigationController id="s6C-JX-X0S" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Item" id="lGZ-ag-9je"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
@@ -166,12 +221,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tCH-Qb-Ao0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1066" y="1652"/>
+            <point key="canvasLocation" x="770" y="1668"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="eB8-6N-kvA">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="TYd-8t-CmW" sceneMemberID="viewController">
+                <viewController id="TYd-8t-CmW" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pND-gp-pIz"/>
                         <viewControllerLayoutGuide type="bottom" id="3Ax-Rt-GTF"/>
@@ -187,7 +242,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r4l-e5-NF2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1650" y="1644"/>
+            <point key="canvasLocation" x="1354" y="1660"/>
         </scene>
     </scenes>
 </document>

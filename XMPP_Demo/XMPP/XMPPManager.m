@@ -9,18 +9,22 @@
 #import "XMPPManager.h"
 #import <XMPPFramework.h>
 #import <XMPPReconnect.h>
+#import <XMPPRoster.h>
+#import <XMPPRosterCoreDataStorage.h>
 
-#define kDOMAIN_NAME        @"mingway.local"
+#define kDOMAIN_NAME        @"mingway-mba.local"
 #define kRESOURCE           @"iPhone"
 #define kHOST_NAME          @"127.0.0.1"
 
-@interface XMPPManager ()<XMPPStreamDelegate>
+@interface XMPPManager () <XMPPStreamDelegate, XMPPRosterDelegate>
 
 @property (nonatomic, strong) XMPPStream *stream;
 @property (nonatomic, strong) XMPPReconnect *reconnect;
+@property (nonatomic, strong) XMPPRoster *roster;
+@property (nonatomic, strong) XMPPRosterCoreDataStorage *rosterCoreDataStorage;
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *password;
-@property (nonatomic, assign) BOOL isOnline;
+@property (nonatomic, strong) NSString *generateID;
 
 @end
 
@@ -45,14 +49,31 @@
         [self.stream setHostName:kHOST_NAME];
         [self.stream setHostPort:5222];
         self.isOnline = NO;
-        self.reconnect = [[XMPPReconnect alloc] init];
-        [self.reconnect setAutoReconnect:YES];
     }
     return self;
 }
 
 #pragma mark -
 #pragma mark Getters
+- (XMPPRosterCoreDataStorage *)rosterCoreDataStorage
+{
+    if (_rosterCoreDataStorage == nil) {
+        _rosterCoreDataStorage = [[XMPPRosterCoreDataStorage alloc] init];
+    }
+    return _rosterCoreDataStorage;
+}
+
+- (XMPPRoster *)roster
+{
+    if (_roster == nil) {
+        _roster = [[XMPPRoster alloc] initWithRosterStorage:self.rosterCoreDataStorage];
+        [_roster addDelegate:self delegateQueue:dispatch_get_main_queue()];
+        _roster.autoFetchRoster = YES;
+        _roster.autoAcceptKnownPresenceSubscriptionRequests = YES;
+    }
+    return _roster;
+}
+
 - (XMPPStream *)stream
 {
     if (_stream == nil) {
@@ -60,6 +81,15 @@
         [_stream addDelegate:self delegateQueue:dispatch_get_main_queue()];
     }
     return _stream;
+}
+
+- (XMPPReconnect *)reconnect
+{
+    if (_reconnect == nil) {
+        _reconnect = [[XMPPReconnect alloc] init];
+        [_reconnect setAutoReconnect:YES];
+    }
+    return _reconnect;
 }
 
 #pragma mark-
@@ -104,6 +134,41 @@
     return NO;
 }
 
+- (void)disconnect
+{
+    if ([self.stream isConnected]) {
+        [self.stream disconnect];
+    }
+}
+
+- (void)getFriendList
+{
+    NSLog(@"获取好友列表");
+    NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"jabber:iq:roster"];
+    NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
+    XMPPJID *myJID = self.stream.myJID;
+    [iq addAttributeWithName:@"from" stringValue:myJID.description];
+    [iq addAttributeWithName:@"to" stringValue:myJID.domain];
+    [iq addAttributeWithName:@"id" stringValue:[self generateID]];
+    [iq addAttributeWithName:@"type" stringValue:@"get"];
+    [iq addChild:query];
+    [self.stream sendElement:iq];
+}
+
+- (void)sendFriendRequestWithUsername:(NSString *)username
+{
+    XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@/%@", self.username, kDOMAIN_NAME, kRESOURCE]];
+    [self.roster subscribePresenceToUser:jid];
+}
+
+- (void)removeFriendWithUsername:(NSString *)username
+{
+    XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@/%@", self.username, kDOMAIN_NAME, kRESOURCE]];
+    [self.roster removeUser:jid];
+}
+
+#pragma mark -
+#pragma mark Private Methods
 - (void)goOnline
 {
     self.isOnline = YES;
@@ -116,6 +181,11 @@
     self.isOnline = NO;
     XMPPPresence *p = [XMPPPresence presenceWithType:@"unavailable"];
     [self.stream sendElement:p];
+}
+
+- (NSString *)generateID
+{
+    return [NSString stringWithFormat:@"%@", @((random()/1000 + 1000))];
 }
 
 #pragma mark -
@@ -144,8 +214,7 @@
 {
     NSLog(@"验证登录成功");
     [self goOnline];
-    ///获取好友列表
-    
+    [self getFriendList];
 }
 
 - (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(NSXMLElement *)error
@@ -172,6 +241,35 @@
 - (void)xmppStreamConnectDidTimeout:(XMPPStream *)sender
 {
     NSLog(@"连接超时");
+}
+
+- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
+{
+    NSLog(@"获取到好友列表");
+    if ([@"result" isEqualToString:iq.type]) {
+        NSXMLElement *query = iq.childElement;
+        if ([@"query" isEqualToString:query.name]) {
+            NSMutableArray *friends = [NSMutableArray array];
+            NSArray *items = [query children];
+            for (NSXMLElement *item in items) {
+                NSString *jid = [item attributeStringValueForName:@"jid"];
+                XMPPJID *xmppJID = [XMPPJID jidWithString:jid];
+                [friends addObject:xmppJID];
+            }
+            self.friendList = friends;
+        }
+    }
+    return YES;
+}
+
+- (void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence
+{
+    NSLog(@"接收到添加好友请求");
+}
+
+- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
+{
+    NSLog(@"收到上线通知");
 }
 
 @end

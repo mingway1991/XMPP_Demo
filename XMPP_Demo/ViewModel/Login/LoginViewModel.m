@@ -8,8 +8,28 @@
 
 #import "LoginViewModel.h"
 #import "XMPPManager.h"
+#import <ReactiveCocoa.h>
 
 @implementation LoginViewModel
+
+#pragma mark -
+#pragma mark Init
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        @weakify(self);
+        [RACObserve([XMPPManager shared], isOnline)
+         subscribeNext:^(id x){
+             @strongify(self);
+             NSLog(@"%s isOnline: %@", __FUNCTION__, x);
+             if ([x boolValue]) {
+                 self.loginSuccess();
+             }
+         }];
+    }
+    return self;
+}
 
 #pragma mark -
 #pragma mark Public Methods
