@@ -8,6 +8,9 @@
 
 #import "BaseViewController.h"
 
+@class XMPPJID;
 @interface ChatController : BaseViewController
+
+@property (nonatomic, strong) XMPPJID *others;
 
 @end

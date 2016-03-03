@@ -10,9 +10,12 @@
 #import "FriendListViewModel.h"
 #import <ReactiveCocoa.h>
 #import <XMPPFramework.h>
+#import "ChatController.h"
 
 @interface FriendListController () <UITableViewDataSource, UITableViewDelegate>
-
+{
+    NSInteger _selectedIndex;
+}
 @property (nonatomic, strong) FriendListViewModel *viewModel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -105,6 +108,7 @@
 #pragma mark UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    _selectedIndex = indexPath.row;
     [self performSegueWithIdentifier:@"toChatSegue" sender:nil];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -114,7 +118,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"toChatSegue"]) {
-        
+        ChatController *destinationController = segue.destinationViewController;
+        destinationController.others = self.viewModel.friends[_selectedIndex];
     }
 }
 

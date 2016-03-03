@@ -40,7 +40,6 @@
     if ([self.delegate respondsToSelector:@selector(didClickSendButtonWithMessage:)]) {
         [self.delegate didClickSendButtonWithMessage:self.inputTextView.text];
     }
-    [self.inputTextView resignFirstResponder];
     self.inputTextView.text = @"";
 }
 

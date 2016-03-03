@@ -27,6 +27,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.usernameTextField.text = @"admin";
+    self.passwordTextField.text = @"123456";
     @weakify(self);
     [self.usernameTextField.rac_textSignal subscribeNext:^(NSString *text) {
         NSLog(@"username：%@",text);

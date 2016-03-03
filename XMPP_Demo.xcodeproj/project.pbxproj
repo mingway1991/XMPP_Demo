@@ -18,6 +18,11 @@
 		488488231C7EC3F20084E382 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 488488211C7EC3F20084E382 /* LaunchScreen.storyboard */; };
 		4888CEC61C8800A300DDE02B /* ChatBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4888CEC51C8800A300DDE02B /* ChatBottomView.m */; };
 		4888CEC81C8800AF00DDE02B /* ChatBottomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4888CEC71C8800AF00DDE02B /* ChatBottomView.xib */; };
+		4888CECD1C88213300DDE02B /* ChatTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4888CECB1C88213300DDE02B /* ChatTextCell.m */; };
+		4888CECE1C88213300DDE02B /* ChatTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4888CECC1C88213300DDE02B /* ChatTextCell.xib */; };
+		4888CED21C88216800DDE02B /* ChatTextMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4888CED11C88216800DDE02B /* ChatTextMessage.m */; };
+		4888CED61C8824C600DDE02B /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 4888CED41C8824C600DDE02B /* bubble.png */; };
+		4888CED71C8824C600DDE02B /* bubbleSelf.png in Resources */ = {isa = PBXBuildFile; fileRef = 4888CED51C8824C600DDE02B /* bubbleSelf.png */; };
 		48BF9CE71C7FEBC400C219DE /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BF9CE61C7FEBC400C219DE /* BaseViewController.m */; };
 		48BF9CEA1C7FEBE400C219DE /* FriendListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BF9CE91C7FEBE400C219DE /* FriendListController.m */; };
 		48BF9CEE1C7FEC7500C219DE /* BaseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BF9CED1C7FEC7500C219DE /* BaseViewModel.m */; };
@@ -49,6 +54,13 @@
 		4888CEC41C8800A300DDE02B /* ChatBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatBottomView.h; sourceTree = "<group>"; };
 		4888CEC51C8800A300DDE02B /* ChatBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatBottomView.m; sourceTree = "<group>"; };
 		4888CEC71C8800AF00DDE02B /* ChatBottomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatBottomView.xib; sourceTree = "<group>"; };
+		4888CECA1C88213300DDE02B /* ChatTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatTextCell.h; sourceTree = "<group>"; };
+		4888CECB1C88213300DDE02B /* ChatTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatTextCell.m; sourceTree = "<group>"; };
+		4888CECC1C88213300DDE02B /* ChatTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatTextCell.xib; sourceTree = "<group>"; };
+		4888CED01C88216800DDE02B /* ChatTextMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatTextMessage.h; sourceTree = "<group>"; };
+		4888CED11C88216800DDE02B /* ChatTextMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatTextMessage.m; sourceTree = "<group>"; };
+		4888CED41C8824C600DDE02B /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
+		4888CED51C8824C600DDE02B /* bubbleSelf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbleSelf.png; sourceTree = "<group>"; };
 		48BF9CE51C7FEBC400C219DE /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		48BF9CE61C7FEBC400C219DE /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		48BF9CE81C7FEBE400C219DE /* FriendListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListController.h; sourceTree = "<group>"; };
@@ -161,6 +173,8 @@
 			children = (
 				488488161C7EC3F20084E382 /* AppDelegate.h */,
 				488488171C7EC3F20084E382 /* AppDelegate.m */,
+				4888CED31C8824C200DDE02B /* Resource */,
+				4888CECF1C88215500DDE02B /* Model */,
 				486F089E1C7EE3DE0054F0F4 /* XMPP */,
 				486F08A11C7EE3DE0054F0F4 /* ViewModel */,
 				486F08A41C7EE3DE0054F0F4 /* View */,
@@ -191,6 +205,34 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		4888CEC91C88212200DDE02B /* ChatCell */ = {
+			isa = PBXGroup;
+			children = (
+				4888CECA1C88213300DDE02B /* ChatTextCell.h */,
+				4888CECB1C88213300DDE02B /* ChatTextCell.m */,
+				4888CECC1C88213300DDE02B /* ChatTextCell.xib */,
+			);
+			path = ChatCell;
+			sourceTree = "<group>";
+		};
+		4888CECF1C88215500DDE02B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4888CED01C88216800DDE02B /* ChatTextMessage.h */,
+				4888CED11C88216800DDE02B /* ChatTextMessage.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4888CED31C8824C200DDE02B /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				4888CED41C8824C600DDE02B /* bubble.png */,
+				4888CED51C8824C600DDE02B /* bubbleSelf.png */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 		48BF9CE01C7FEADE00C219DE /* Mine */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,6 +243,7 @@
 		48BF9CE11C7FEADE00C219DE /* FriendList */ = {
 			isa = PBXGroup;
 			children = (
+				4888CEC91C88212200DDE02B /* ChatCell */,
 				4888CEC31C88008A00DDE02B /* View */,
 				48BF9CE81C7FEBE400C219DE /* FriendListController.h */,
 				48BF9CE91C7FEBE400C219DE /* FriendListController.m */,
@@ -328,7 +371,10 @@
 				488488231C7EC3F20084E382 /* LaunchScreen.storyboard in Resources */,
 				488488201C7EC3F20084E382 /* Assets.xcassets in Resources */,
 				4884881E1C7EC3F20084E382 /* Main.storyboard in Resources */,
+				4888CECE1C88213300DDE02B /* ChatTextCell.xib in Resources */,
+				4888CED71C8824C600DDE02B /* bubbleSelf.png in Resources */,
 				4888CEC81C8800AF00DDE02B /* ChatBottomView.xib in Resources */,
+				4888CED61C8824C600DDE02B /* bubble.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,7 +437,9 @@
 				48BF9CF11C7FECA600C219DE /* FriendListViewModel.m in Sources */,
 				48BF9CF41C7FF48E00C219DE /* AddFriendController.m in Sources */,
 				488488181C7EC3F20084E382 /* AppDelegate.m in Sources */,
+				4888CECD1C88213300DDE02B /* ChatTextCell.m in Sources */,
 				48BF9CEA1C7FEBE400C219DE /* FriendListController.m in Sources */,
+				4888CED21C88216800DDE02B /* ChatTextMessage.m in Sources */,
 				488488151C7EC3F20084E382 /* main.m in Sources */,
 				486F08A71C7EE3DE0054F0F4 /* XMPPManager.m in Sources */,
 				48BF9CEE1C7FEC7500C219DE /* BaseViewModel.m in Sources */,
