@@ -37,15 +37,15 @@
 
     if (model.isSender) {
         
-        [self.contentTextView setFrame:CGRectMake(screenWidth - 20 - (size.width + 16), 15, size.width + 16, size.height + 16)];
+        [self.contentTextView setFrame:CGRectMake(screenWidth - 18 - (size.width + 16), 15, size.width + 16, size.height + 16)];
         [self.bubbleImageView setFrame:CGRectMake(screenWidth - 5 - (size.width + 16 + 20), 5, size.width + 16 + 20, size.height + 16 + 20)];
-        self.bubbleImageView.image = [[UIImage imageNamed:@"bubbleSelf"] stretchableImageWithLeftCapWidth:20 topCapHeight:10];
+        self.bubbleImageView.image = [[UIImage imageNamed:@"bubbleSelf"] stretchableImageWithLeftCapWidth:20 topCapHeight:15];
         self.contentTextView.text = content;
         
     }else {
-        [self.contentTextView setFrame:CGRectMake(25, 15, size.width + 16, size.height + 16)];
+        [self.contentTextView setFrame:CGRectMake(23, 15, size.width + 16, size.height + 16)];
         [self.bubbleImageView setFrame:CGRectMake(5, 5, size.width + 16 + 20, size.height + 16 + 20)];
-        self.bubbleImageView.image = [[UIImage imageNamed:@"bubble"] stretchableImageWithLeftCapWidth:20 topCapHeight:10];
+        self.bubbleImageView.image = [[UIImage imageNamed:@"bubble"] stretchableImageWithLeftCapWidth:20 topCapHeight:15];
         self.contentTextView.text = content;
     }
 }

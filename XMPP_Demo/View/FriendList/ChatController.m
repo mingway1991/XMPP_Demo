@@ -198,11 +198,24 @@
     }
 }
 
+- (void)resetHeightForBottomView
+{
+    CGFloat originalHeight = self.bottomView.frame.size.height;
+    CGRect newFrame = CGRectMake(0, self.bottomView.frame.origin.y + originalHeight - 50, self.bottomView.frame.size.width, 50);
+    
+    __weak typeof(self) weakSelf = self;
+    [UIView animateWithDuration:0.3 animations:^{
+        weakSelf.bottomView.frame = newFrame;
+    }];
+}
+
 #pragma mark -
 #pragma mark ChatBottomViewDelegate
 - (void)didClickSendButtonWithMessage:(NSString *)message
 {
     NSLog(@"发送文本：%@", message);
+    
+    [self resetHeightForBottomView];
     
     ChatTextMessage *newMessage = [[ChatTextMessage alloc] init];
     newMessage.otherUser = self.others.user;
