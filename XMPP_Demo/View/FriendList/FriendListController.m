@@ -9,10 +9,12 @@
 #import "FriendListController.h"
 #import "FriendListViewModel.h"
 #import <ReactiveCocoa.h>
+#import <XMPPFramework.h>
 
-@interface FriendListController ()
+@interface FriendListController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) FriendListViewModel *viewModel;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -20,19 +22,16 @@
 
 #pragma mark -
 #pragma mark life cycle
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self viewModel];
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self addNavigationBarButton];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.viewModel refreshFriendList];
 }
 
 - (void)didReceiveMemoryWarning
@@ -60,6 +59,7 @@
 - (void)updateUI
 {
     NSLog(@"刷新好友列表显示");
+    [self.tableView reloadData];
 }
 
 - (void)addNavigationBarButton
@@ -71,6 +71,51 @@
 - (void)toAddFriend
 {
     [self performSegueWithIdentifier:@"toAddFriendSegue" sender:nil];
+}
+
+#pragma mark -
+#pragma mark UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _viewModel.friends.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    }
+    XMPPJID *jid = self.viewModel.friends[indexPath.row];
+    cell.textLabel.text = jid.user;
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44;
+}
+
+#pragma mark -
+#pragma mark UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"toChatSegue" sender:nil];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark Segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"toChatSegue"]) {
+        
+    }
 }
 
 @end

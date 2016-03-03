@@ -22,15 +22,6 @@
 
 #pragma mark -
 #pragma mark life cycle
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self viewModel];
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];

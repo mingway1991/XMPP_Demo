@@ -11,10 +11,14 @@
 #import <XMPPReconnect.h>
 #import <XMPPRoster.h>
 #import <XMPPRosterCoreDataStorage.h>
+#import <XMPPvCardCoreDataStorage.h>
+#import <XMPPCapabilitiesCoreDataStorage.h>
+#import <XMPPCapabilities.h>
 
 #define kDOMAIN_NAME        @"mingway-mba.local"
 #define kRESOURCE           @"iPhone"
-#define kHOST_NAME          @"127.0.0.1"
+//#define kHOST_NAME          @"127.0.0.1"
+#define kHOST_NAME          @"169.254.254.43"
 
 @interface XMPPManager () <XMPPStreamDelegate, XMPPRosterDelegate>
 
@@ -22,6 +26,10 @@
 @property (nonatomic, strong) XMPPReconnect *reconnect;
 @property (nonatomic, strong) XMPPRoster *roster;
 @property (nonatomic, strong) XMPPRosterCoreDataStorage *rosterCoreDataStorage;
+@property (nonatomic, strong) XMPPvCardCoreDataStorage *vcardCoreDataStorage;
+@property (nonatomic, strong) XMPPvCardTempModule *vcardTempModule;
+@property (nonatomic, strong) XMPPCapabilitiesCoreDataStorage *capabilitiesCoreDataStorage;
+@property (nonatomic, strong) XMPPCapabilities *capabilities;
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSString *generateID;
@@ -49,6 +57,10 @@
         [self.stream setHostName:kHOST_NAME];
         [self.stream setHostPort:5222];
         self.isOnline = NO;
+        [self.reconnect activate:self.stream];
+        [self.roster activate:self.stream];
+        [self.vcardTempModule activate:self.stream];
+        [self.capabilities activate:self.stream];
     }
     return self;
 }
@@ -90,6 +102,40 @@
         [_reconnect setAutoReconnect:YES];
     }
     return _reconnect;
+}
+
+- (XMPPvCardCoreDataStorage *)vcardCoreDataStorage
+{
+    if (_vcardCoreDataStorage == nil) {
+        _vcardCoreDataStorage = [XMPPvCardCoreDataStorage sharedInstance];
+    }
+    return _vcardCoreDataStorage;
+}
+
+- (XMPPvCardTempModule *)vcardTempModule
+{
+    if (_vcardTempModule == nil) {
+        _vcardTempModule = [[XMPPvCardTempModule alloc] initWithvCardStorage:self.vcardCoreDataStorage];
+    }
+    return _vcardTempModule;
+}
+
+- (XMPPCapabilitiesCoreDataStorage *)capabilitiesCoreDataStorage
+{
+    if (_capabilitiesCoreDataStorage == nil) {
+        _capabilitiesCoreDataStorage = [XMPPCapabilitiesCoreDataStorage sharedInstance];
+    }
+    return _capabilitiesCoreDataStorage;
+}
+
+- (XMPPCapabilities *)capabilities
+{
+    if (_capabilities == nil) {
+        _capabilities = [[XMPPCapabilities alloc] initWithCapabilitiesStorage:self.capabilitiesCoreDataStorage];
+        _capabilities.autoFetchHashedCapabilities = YES;
+        _capabilities.autoFetchNonHashedCapabilities = NO;
+    }
+    return _capabilities;
 }
 
 #pragma mark-
@@ -136,6 +182,7 @@
 
 - (void)disconnect
 {
+    [self goOffline];
     if ([self.stream isConnected]) {
         [self.stream disconnect];
     }
@@ -148,11 +195,12 @@
     NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
     XMPPJID *myJID = self.stream.myJID;
     [iq addAttributeWithName:@"from" stringValue:myJID.description];
-    [iq addAttributeWithName:@"to" stringValue:myJID.domain];
+    [iq addAttributeWithName:@"to" stringValue:myJID.description];
     [iq addAttributeWithName:@"id" stringValue:[self generateID]];
     [iq addAttributeWithName:@"type" stringValue:@"get"];
     [iq addChild:query];
     [self.stream sendElement:iq];
+//    [self.roster fetchRoster];
 }
 
 - (void)sendFriendRequestWithUsername:(NSString *)username
@@ -172,7 +220,7 @@
 - (void)goOnline
 {
     self.isOnline = YES;
-    XMPPPresence *p = [XMPPPresence presence];
+    XMPPPresence *p = [XMPPPresence presenceWithType:@"available"];
     [self.stream sendElement:p];
 }
 
@@ -185,7 +233,10 @@
 
 - (NSString *)generateID
 {
-    return [NSString stringWithFormat:@"%@", @((random()/1000 + 1000))];
+    if (_generateID == nil) {
+        _generateID = [NSString stringWithFormat:@"%@", @((random()/1000 + 1000))];
+    }
+    return _generateID;
 }
 
 #pragma mark -
@@ -214,7 +265,6 @@
 {
     NSLog(@"验证登录成功");
     [self goOnline];
-    [self getFriendList];
 }
 
 - (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(NSXMLElement *)error
@@ -230,7 +280,6 @@
     }else {
         NSLog(@"断开连接");
     }
-    [self goOffline];
 }
 
 - (void)xmppStreamWasToldToDisconnect:(XMPPStream *)sender
@@ -245,8 +294,10 @@
 
 - (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
 {
-    NSLog(@"获取到好友列表");
-    if ([@"result" isEqualToString:iq.type]) {
+    NSLog(@"%@", iq.description);
+    if ([iq.type isEqualToString:@"error"]) {
+        NSLog(@"获取好友列表出错");
+    }else if ([@"result" isEqualToString:iq.type]) {
         NSXMLElement *query = iq.childElement;
         if ([@"query" isEqualToString:query.name]) {
             NSMutableArray *friends = [NSMutableArray array];
@@ -259,17 +310,81 @@
             self.friendList = friends;
         }
     }
+    _generateID = nil;
     return YES;
 }
 
 - (void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence
 {
-    NSLog(@"接收到添加好友请求");
+    NSLog(@"收到好友请求");
+    NSString * presenceType = [presence type];
+    NSLog(@"presenceType = %@",presenceType);
+    XMPPJID * fromJid = presence.from;
+    if ([presenceType isEqualToString:@"subscribe"]) {
+        //是订阅请求  直接通过
+        [self.roster acceptPresenceSubscriptionRequestFrom:fromJid andAddToRoster:YES];
+    }
 }
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
 {
-    NSLog(@"收到上线通知");
+    NSLog(@"获取好友状态");
+    NSString *presenceType = [presence type];
+    NSString *presenceFromUser = [[presence from] user];
+    if (![presenceFromUser isEqualToString:[[sender myJID] user]]) {
+        if ([presenceType isEqualToString:@"available"]) {
+            //
+        } else if ([presenceType isEqualToString:@"unavailable"]) {
+            //
+        }
+    }
+}
+
+- (void)xmppStream:(XMPPStream *)sender didFailToSendIQ:(XMPPIQ *)iq error:(NSError *)error
+{
+    NSLog(@"发送添加好友请求失败 错误：%@", error.localizedDescription);
+}
+
+- (void)xmppStream:(XMPPStream *)sender didFailToSendMessage:(XMPPMessage *)message error:(NSError *)error
+{
+    NSLog(@"发送消息失败");
+}
+
+- (void)xmppRoster:(XMPPRoster *)sender didReceiveRosterItem:(DDXMLElement *)item
+{
+    NSString *subscription = [item attributeStringValueForName:@"subscription"];
+    NSLog(@"%@",subscription);
+    if ([subscription isEqualToString:@"both"]) {
+        NSLog(@"双方成为好友！");
+    }
+}
+
+- (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
+{
+    NSLog(@"%@", message.description);
+    NSString *messageHead = [[message elementForName:@"head"] stringValue];
+    NSString *messageBody = [[message elementForName:@"body"] stringValue];
+    NSLog(@"消息头：\n%@\n消息内容\n%@", messageHead, messageBody);
+}
+
+- (void)xmppStream:(XMPPStream *)sender didSendIQ:(XMPPIQ *)iq
+{
+    
+}
+
+- (void)xmppStream:(XMPPStream *)sender didSendMessage:(XMPPMessage *)message
+{
+    NSLog(@"已经发送消息");
+}
+
+- (void)xmppRosterDidEndPopulating:(XMPPRoster *)sender
+{
+    NSLog(@"获取完好友列表");
+}
+
+- (void)fetchvCardTempForJID:(XMPPJID *)jid;
+{
+    NSLog(@"获取某人名片");
 }
 
 @end

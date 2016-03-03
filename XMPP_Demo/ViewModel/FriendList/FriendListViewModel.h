@@ -16,5 +16,6 @@ typedef void(^GetFriendListSuccess)();
 @property (nonatomic, copy) GetFriendListSuccess getFriendListBlock;
 
 - (void)setGetFriendListBlock:(GetFriendListSuccess)getFriendListBlock;
+- (void)refreshFriendList;
 
 @end

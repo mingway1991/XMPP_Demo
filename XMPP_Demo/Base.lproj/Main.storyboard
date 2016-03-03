@@ -89,12 +89,12 @@
             </objects>
             <point key="canvasLocation" x="332" y="-55"/>
         </scene>
-        <!--Item-->
+        <!--Friend-->
         <scene sceneID="wdO-Fd-7Fd">
             <objects>
                 <navigationController id="MdY-6L-wJo" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="Item" id="XyM-EI-hu4"/>
+                    <tabBarItem key="tabBarItem" title="Friend" id="XyM-EI-hu4"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="doo-6G-Xf0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -119,13 +119,31 @@
                     <view key="view" contentMode="scaleToFill" id="YrG-AX-31r">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CNj-yq-5xO">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="pf7-Xz-ccJ" id="fhO-4E-ZWs"/>
+                                    <outlet property="delegate" destination="pf7-Xz-ccJ" id="m7w-Gr-vsY"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="CNj-yq-5xO" firstAttribute="top" secondItem="IlH-Ek-sVs" secondAttribute="bottom" id="6kD-7v-eYj"/>
+                            <constraint firstItem="CNj-yq-5xO" firstAttribute="leading" secondItem="YrG-AX-31r" secondAttribute="leading" id="DjG-WV-1Sq"/>
+                            <constraint firstAttribute="trailing" secondItem="CNj-yq-5xO" secondAttribute="trailing" id="WjQ-n4-2tC"/>
+                            <constraint firstItem="QjN-7E-vXh" firstAttribute="top" secondItem="CNj-yq-5xO" secondAttribute="bottom" id="ko5-hS-4py"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="YLV-5r-4za"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="tableView" destination="CNj-yq-5xO" id="8cS-Uu-FDN"/>
                         <segue destination="5rP-Jt-uAz" kind="show" identifier="toAddFriendSegue" id="FPU-Z0-ZoN"/>
+                        <segue destination="1NW-RF-P2O" kind="show" identifier="toChatSegue" id="zQe-Qi-ICZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bU3-z5-LOb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -182,7 +200,28 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ioT-eF-7bw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1946" y="844"/>
+            <point key="canvasLocation" x="1942" y="256"/>
+        </scene>
+        <!--Chat Controller-->
+        <scene sceneID="2pg-8J-ywG">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="1NW-RF-P2O" customClass="ChatController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="072-S4-NSQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="Dw9-5r-6TV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vLc-Dm-Dqe">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b4c-RS-1E6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1963" y="989"/>
         </scene>
         <!--Base Tab Bar Controller-->
         <scene sceneID="CDu-Bi-jMw">
@@ -204,12 +243,12 @@
             </objects>
             <point key="canvasLocation" x="136" y="1131"/>
         </scene>
-        <!--Item-->
+        <!--Message-->
         <scene sceneID="IJD-BR-i6V">
             <objects>
                 <navigationController id="s6C-JX-X0S" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="Item" id="lGZ-ag-9je"/>
+                    <tabBarItem key="tabBarItem" title="Message" id="lGZ-ag-9je"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="taA-n1-hS5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

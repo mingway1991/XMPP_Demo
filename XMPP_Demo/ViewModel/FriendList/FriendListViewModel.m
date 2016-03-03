@@ -19,16 +19,22 @@
     self = [super init];
     if (self) {
         @weakify(self);
-        [RACObserve([XMPPManager shared], friendList) subscribeNext:^(NSArray *friends) {
+        [RACObserve([XMPPManager shared], friendList) subscribeNext:^(id x) {
             @strongify(self);
-            self.friends = friends;
-            self.getFriendListBlock();
+            self.friends = [XMPPManager shared].friendList;
+            if (self.getFriendListBlock != nil) {
+                self.getFriendListBlock();
+            }
         }];
     }
     return self;
 }
 
 #pragma mark -
-#pragma mark Private Methods
+#pragma mark Public Methods
+- (void)refreshFriendList
+{
+    [[XMPPManager shared] getFriendList];
+}
 
 @end
