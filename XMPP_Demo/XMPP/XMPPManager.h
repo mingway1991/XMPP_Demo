@@ -8,8 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol XMPPManagerDelegate <NSObject>
+
+- (void)didReceiveMessage:(NSString *)message fromUser:(NSString *)fromUser;
+
+@end
+
 @interface XMPPManager : NSObject
 
+@property (nonatomic, weak) id<XMPPManagerDelegate> delegate;
 @property (nonatomic, assign) BOOL isOnline;
 @property (nonatomic, strong) NSArray *friendList;
 
@@ -20,5 +27,8 @@
 - (void)getFriendList;
 - (void)sendFriendRequestWithUsername:(NSString *)username;
 - (void)removeFriendWithUsername:(NSString *)username;
+
+//发消息
+- (void)sendToUser:(NSString *)user textMessage:(NSString *)messageStr;
 
 @end

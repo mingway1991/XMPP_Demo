@@ -115,9 +115,7 @@
         
         if (offsetRange.location < MAX_LIMIT_NUMS) {
             return YES;
-        }
-        else
-        {
+        }else {
             return NO;
         }
     }
@@ -134,15 +132,13 @@
 //        
 //        textView.frame = frame;
         return YES;
-    }
-    else{
+    }else {
         
         NSInteger len = text.length + caninputlen;
         //防止当text.length + caninputlen < 0时，使得rg.length为一个非法最大正数出错
         NSRange rg = {0,MAX(len,0)};
         
-        if (rg.length > 0)
-        {
+        if (rg.length > 0) {
             NSString *s = @"";
             //判断是否只普通的字符或asc码(对于中文和表情返回NO)
             BOOL asc = [text canBeConvertedToEncoding:NSASCIIStringEncoding];

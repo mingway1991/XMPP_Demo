@@ -11,8 +11,9 @@
 #import "ChatTextMessage.h"
 #import "ChatCell/ChatTextCell.h"
 #import <XMPPFramework.h>
+#import "XMPPManager.h"
 
-@interface ChatController () <ChatBottomViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface ChatController () <ChatBottomViewDelegate, UITableViewDataSource, UITableViewDelegate, XMPPManagerDelegate>
 {
     CGFloat _bottomViewOriginY;
     NSArray *_messages;
@@ -33,47 +34,17 @@
     self.navigationItem.title = self.others.user;
     _messages = @[];
     _bottomViewOriginY = -100;
-    ChatTextMessage *message1 = [[ChatTextMessage alloc] init];
-    message1.otherUser = self.others.user;
-    message1.content = @"这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容";
-    message1.isSender = NO;
-    
-    ChatTextMessage *message2 = [[ChatTextMessage alloc] init];
-    message2.otherUser = self.others.user;
-    message2.content = @"这是内容";
-    message2.isSender = NO;
-    
-    ChatTextMessage *message3 = [[ChatTextMessage alloc] init];
-    message3.otherUser = self.others.user;
-    message3.content = @"这是内容，这事内容，这事内容";
-    message3.isSender = NO;
-    
-    ChatTextMessage *message4 = [[ChatTextMessage alloc] init];
-    message4.otherUser = self.others.user;
-    message4.content = @"这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容, 这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容";
-    message4.isSender = NO;
-    
-    ChatTextMessage *message5 = [[ChatTextMessage alloc] init];
-    message5.otherUser = self.others.user;
-    message5.content = @"这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容, 这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容,这是内容，这事内容，这事内容";
-    message5.isSender = YES;
-    
-    ChatTextMessage *message6 = [[ChatTextMessage alloc] init];
-    message6.otherUser = self.others.user;
-    message6.content = @"这是内容，这事内容，这事内容";
-    message6.isSender = YES;
-    
-    ChatTextMessage *message7 = [[ChatTextMessage alloc] init];
-    message7.otherUser = self.others.user;
-    message7.content = @"这是内容";
-    message7.isSender = YES;
-    
-    _messages = @[message1, message2, message3, message4, message5, message6, message7];
+    [[XMPPManager shared] setDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void)dealloc
+{
+    [[XMPPManager shared] setDelegate:nil];
 }
 
 - (void)viewDidLayoutSubviews
@@ -209,24 +180,30 @@
     }];
 }
 
-#pragma mark -
-#pragma mark ChatBottomViewDelegate
-- (void)didClickSendButtonWithMessage:(NSString *)message
+- (void)sendMessage:(NSString *)messageStr
 {
-    NSLog(@"发送文本：%@", message);
-    
-    [self resetHeightForBottomView];
+    NSLog(@"发送文本：%@", messageStr);
+    [[XMPPManager shared] sendToUser:self.others.user textMessage:messageStr];
     
     ChatTextMessage *newMessage = [[ChatTextMessage alloc] init];
     newMessage.otherUser = self.others.user;
-    newMessage.content = message;
+    newMessage.content = messageStr;
     newMessage.isSender = YES;
     
     NSMutableArray *newArray = [NSMutableArray arrayWithArray:_messages];
     [newArray addObject:newMessage];
     _messages = newArray;
+    
     [self.chatBubbleTableView reloadData];
     [self scrollToBottomWithAnimation:YES];
+}
+
+#pragma mark -
+#pragma mark ChatBottomViewDelegate
+- (void)didClickSendButtonWithMessage:(NSString *)message
+{
+    [self sendMessage:message];
+    [self resetHeightForBottomView];
 }
 
 - (void)bottomViewChangedHeight:(CGFloat)height
@@ -288,6 +265,26 @@
     }
     
     return 0;
+}
+
+#pragma mark -
+#pragma mark XMPPManagerDelegate
+- (void)didReceiveMessage:(NSString *)message fromUser:(NSString *)fromUser
+{
+    if ([fromUser isEqualToString:self.others.user]) {
+        
+        ChatTextMessage *newMessage = [[ChatTextMessage alloc] init];
+        newMessage.otherUser = fromUser;
+        newMessage.content = message;
+        newMessage.isSender = NO;
+        
+        NSMutableArray *newArray = [NSMutableArray arrayWithArray:_messages];
+        [newArray addObject:newMessage];
+        _messages = newArray;
+        
+        [self.chatBubbleTableView reloadData];
+        [self scrollToBottomWithAnimation:YES];
+    }
 }
 
 @end

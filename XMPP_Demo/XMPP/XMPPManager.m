@@ -18,7 +18,7 @@
 #define kDOMAIN_NAME        @"mingway-mba.local"
 #define kRESOURCE           @"iPhone"
 //#define kHOST_NAME          @"127.0.0.1"
-#define kHOST_NAME          @"169.254.254.43"
+#define kHOST_NAME          @"169.254.89.148"
 
 @interface XMPPManager () <XMPPStreamDelegate, XMPPRosterDelegate>
 
@@ -215,6 +215,18 @@
     [self.roster removeUser:jid];
 }
 
+- (void)sendToUser:(NSString *)user textMessage:(NSString *)messageStr
+{
+    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+    [body setStringValue:messageStr];
+    NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
+    [message addAttributeWithName:@"type" stringValue:@"chat"];
+    NSString *to = [NSString stringWithFormat:@"%@@%@", user, kDOMAIN_NAME];
+    [message addAttributeWithName:@"to" stringValue:to];
+    [message addChild:body];
+    [self.stream sendElement:message];
+}
+
 #pragma mark -
 #pragma mark Private Methods
 - (void)goOnline
@@ -361,10 +373,26 @@
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
-    NSLog(@"%@", message.description);
-    NSString *messageHead = [[message elementForName:@"head"] stringValue];
     NSString *messageBody = [[message elementForName:@"body"] stringValue];
-    NSLog(@"消息头：\n%@\n消息内容\n%@", messageHead, messageBody);
+    NSString *messageActive = [[message elementForName:@"active"] stringValue];
+    NSString *messageInactive = [[message elementForName:@"inactive"] stringValue];
+    
+    if (messageBody != nil) {
+        NSString *from = [[message attributeForName:@"from"] stringValue];
+        NSString *to = [[message attributeForName:@"to"] stringValue];
+        NSString *type = [[message attributeForName:@"type"] stringValue];
+        NSLog(@"来新消息了\n from:%@\n to:%@\n type:%@\n body:%@", from, to, type, messageBody);
+        NSString *fromUser = [[from componentsSeparatedByString:@"@"] firstObject];
+        
+        if ([self.delegate respondsToSelector:@selector(didReceiveMessage:fromUser:)]) {
+            [self.delegate didReceiveMessage:messageBody fromUser:fromUser];
+        }
+        
+    }else if (messageActive != nil) {
+        NSLog(@"正在输入");
+    }else if (messageInactive != nil) {
+        NSLog(@"结束输入");
+    }
 }
 
 - (void)xmppStream:(XMPPStream *)sender didSendIQ:(XMPPIQ *)iq
